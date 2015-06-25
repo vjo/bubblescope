@@ -1,0 +1,19 @@
+{
+    "name": "bubblescope",
+    "version": "0.0.1",
+    "description": "Powering a bubble machine with Periscope's hearts",
+    "author": "spapin & vjo",
+    "license": "MIT",
+    "main": "app.js",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/vjo/bubblescope"
+    },
+    "dependencies": {
+        "chalk": "^1.0.0",
+        "commander": "^2.6.0",
+        "pubnub": "^3.7.11",
+        "querystring": "^0.2.0"
+    },
+    "devDependencies": {}
+}
