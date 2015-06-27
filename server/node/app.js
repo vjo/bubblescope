@@ -7,9 +7,10 @@ var program = require('commander'),
     fs = require('fs'),
     https = require('https');
 
-// regex to check user passes proper periscope URL
 var PERISCOPE_URL_RE = /^https:\/\/www.periscope.tv\/w\/*/i,
-    CONFIG = {};
+    DELTA_POST = 1000, // Sending post request every DELTA_POST ms
+    CONFIG = {},
+    lastPost = 0;
 
 // define color helper for terminal output
 var error = chalk.red,
@@ -47,10 +48,14 @@ try {
  * Get PubNub key to subscribe
  * @param {String} token periscope token
  */
-var getAccessPublic = function(token) {
-    return https.get('https://api.periscope.tv/api/v2/getAccessPublic?token=' + token, function(res) {
-        res.on('data', function (chunk) {
-            var d = JSON.parse(chunk);
+function getAccessPublic(token){
+    var data = [];
+    return https.get('https://api.periscope.tv/api/v2/getAccessPublic?token=' + token, function(res){
+        res.on('data', function (chunk){
+            data.push(chunk);
+        });
+        res.on('end', function(){
+            var d = JSON.parse(data.join(''));
             var keys = {
                 auth_key      : d.auth_token,
                 subscribe_key : d.subscriber,
@@ -66,9 +71,9 @@ var getAccessPublic = function(token) {
 
 /**
  * Subscribe to PubNub API
- * @param {Object} keys pubnub's keys
+ * @param {Object} data pubnub's subscription data
  */
-var subscribeOnPubnub = function(keys){
+function subscribeOnPubnub(data){
     var pubnub = require("pubnub")({
         ssl           : true,
         publish_key   : data.publish_key,
@@ -77,14 +82,15 @@ var subscribeOnPubnub = function(keys){
     pubnub.subscribe({
         channel    : data.channel,
         auth_key   : data.auth_key,
-        callback   : function(message) {
-            if(message.type === 2){
-                console.log(action('Heart from ' + message.displayName));
+        callback   : function(message){
+            if((message.type === 2) && (Date.now() - lastPost >= DELTA_POST)){
+                lastPost = Date.now();
+                console.log(action('Send heart from ' + message.displayName));
                 sendHeart();
             }
         },
-        connect    : function(){ console.log(info('### Connected to PubNub!')); },
-        disconnect : function(){ console.log(info('### Disconnected from PubNub.')); },
+        connect    : function(){ console.log(info('Connected to PubNub!')); },
+        disconnect : function(){ console.log(info('Disconnected from PubNub.')); },
         error      : function (error) {
             console.log(error('Error subscribe PubNub'));
             console.log(JSON.stringify(error));
@@ -95,7 +101,7 @@ var subscribeOnPubnub = function(keys){
 /**
  * Send heart command to the spark/particle API
  */
-var sendHeart = function() {
+function sendHeart() {
     var post_data = querystring.stringify({});
     var post_options = {
         host: 'api.particle.io',
