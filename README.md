@@ -9,7 +9,7 @@ Powering a bubble machine with Periscope's hearts #PoweredByHearts.
     * [Particle](#particle)
     * [Bubble Machine](#bubble-machine)
 * [Bubble machine hack](#bubble-machine-hack)
-    * [Adding a power control](#adding-a-power-control)
+    <!--* [Adding a power control](#adding-a-power-control)-->
     * [Speeding up the bubble wheel](#speeding-up-the-bubble-wheel)
     * [Powering the bubble machine with 6V](#powering-the-bubble-machine-with-6V)
 
