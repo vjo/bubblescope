@@ -17,7 +17,7 @@ DisplayController display(D3, D4, D5);
 int heartHandler(String heart_count_str) {
   DBGprintln("heart");
   last_heart = millis();
-  int hearts_count = heart_count_str.toInt();
+  int hearts_count = heart_count_str.toInt() %10000;
   // Optimisation of this next call is left as an exercise for the reader
   int digits[] = {hearts_count/1000, hearts_count/100, hearts_count/10, hearts_count};
   display.set_digits(digits);
