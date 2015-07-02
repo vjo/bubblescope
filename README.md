@@ -9,7 +9,7 @@ Powering a bubble machine with Periscope's hearts #PoweredByHearts.
     * [Particle](#particle)
     * [Bubble Machine](#bubble-machine)
 * [Bubble machine hack](#bubble-machine-hack)
-    <!--* [Adding a power control](#adding-a-power-control)-->
+    * [Adding a power control](#adding-a-power-control)
     * [Speeding up the bubble wheel](#speeding-up-the-bubble-wheel)
     * [Powering the bubble machine with 6V](#powering-the-bubble-machine-with-6V)
 
@@ -49,10 +49,8 @@ However, every bubble machine should do the trick.
 
 ## Bubble machine hack
 
-<!--
 ### Adding a power control
 TODO
--->
 
 ### Speeding up the bubble wheel
 We were a bit disappointed by the speed of the bubble wheel not allowing us to create as many bubble as we were hopping.
