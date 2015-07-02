@@ -73,7 +73,7 @@ Now add 2 small screws to raise the height of the first gear:
 
 ![Transmission gear hack 2](https://github.com/vjo/bubblescope/blob/master/misc/transmission-gear-hack-2.jpg "Transmission gear hack 2")
 
-Place the the first gear back and you are good to reassemble all the parts:
+Place the first gear back and you are good to reassemble all the parts:
 
 ![Transmission gear hack 3](https://github.com/vjo/bubblescope/blob/master/misc/transmission-gear-hack-3.jpg "Transmission gear hack 3")
 
