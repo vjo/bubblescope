@@ -63,19 +63,19 @@ Tools needed:
 
 With the help of a screwdriver open the bubble machine to free the rotor mechanism. Open it to remove the bubble wheel, it should look like this:
 
-![Transmission gear hack 0](https://github.com/vjo/bubble/raw/master/misc/transmission-gear-0.jpg "Transmission gear hack 0")
+![Transmission gear hack 0](https://github.com/vjo/bubblescope/blob/master/misc/transmission-gear-hack-0.jpg "Transmission gear hack 0")
 
 Then, remove all the white plastic gears:
 
-![Transmission gear hack 1](https://github.com/vjo/bubble/raw/master/misc/transmission-gear-1.jpg "Transmission gear hack 1")
+![Transmission gear hack 1](https://github.com/vjo/bubblescope/blob/master/misc/transmission-gear-hack-1.jpg "Transmission gear hack 1")
 
 Now add 2 small screws to raise the height of the first gear:
 
-![Transmission gear hack 2](https://github.com/vjo/bubble/raw/master/misc/transmission-gear-2.jpg "Transmission gear hack 2")
+![Transmission gear hack 2](https://github.com/vjo/bubblescope/blob/master/misc/transmission-gear-hack-2.jpg "Transmission gear hack 2")
 
 Place the the first gear back and you are good to reassemble all the parts:
 
-![Transmission gear hack 3](https://github.com/vjo/bubble/raw/master/misc/transmission-gear-3.jpg "Transmission gear hack 3")
+![Transmission gear hack 3](https://github.com/vjo/bubblescope/blob/master/misc/transmission-gear-hack-3.jpg "Transmission gear hack 3")
 
 By raising up the first gear the rotation power go directly from the first to the last gears and allow the bubble wheel to turn faster. We now produce more bubble for more fun.
 
