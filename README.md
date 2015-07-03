@@ -50,7 +50,21 @@ However, every bubble machine should do the trick.
 ## Bubble machine hack
 
 ### Adding a power control
-TODO
+To control the bubble machine via the spark core, we decided to open the control circuit by adding to wire after the main control switch already on the machine. This allow us to still use the main switch to power the machine and then to use a relay to command the machine with the spark core.
+
+Tools needed:
+* 2 electric wire
+* Soldering iron
+
+The first step consist to unsolder the right part of the main switch and solder one of our wire on the switch pin. Then solder our other wire to the wire that was originally connected to the main switch.
+
+Then you can use the ventilation grill to pass the wire through and properly reassemble the bubble machine.
+
+Here are the result two pictures, as it might help to understand the hack:
+
+![Power control hack](https://github.com/vjo/bubblescope/blob/master/misc/power-control-hack.jpg "Power control hack")
+
+![Power control hack zoom out](https://github.com/vjo/bubblescope/blob/master/misc/power-control-hack-zoom-out.jpg "Power control hack zoom out")
 
 ### Speeding up the bubble wheel
 We were a bit disappointed by the speed of the bubble wheel not allowing us to create as many bubble as we were hopping.
