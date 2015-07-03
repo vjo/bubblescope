@@ -8,7 +8,7 @@ var program = require('commander'),
     https = require('https');
 
 var PERISCOPE_URL_RE = /^https:\/\/www.periscope.tv\/w\/*/i,
-    DELTA_POST = 1000, // Sending post request every DELTA_POST ms
+    DELTA_POST = 400, // Sending post request every DELTA_POST ms
     CONFIG = {},
     lastPost = 0;
 
