@@ -8,7 +8,7 @@ var program = require('commander'),
     https = require('https');
 
 var PERISCOPE_URL_RE = /^https:\/\/www.periscope.tv\/w\/*/i,
-    DELTA_POST = 1000, // Sending post request every DELTA_POST ms
+    DELTA_POST = 400, // Sending post request every DELTA_POST ms
     CONFIG = {},
     lastPost = 0;
 
@@ -79,14 +79,18 @@ function subscribeOnPubnub(data){
         publish_key   : data.publish_key,
         subscribe_key : data.subscribe_key
     });
+    var heartsCount = 0;
     pubnub.subscribe({
         channel    : data.channel,
         auth_key   : data.auth_key,
         callback   : function(message){
-            if((message.type === 2) && (Date.now() - lastPost >= DELTA_POST)){
-                lastPost = Date.now();
-                console.log(action('Send heart from ' + message.displayName));
-                sendHeart();
+            if(message.type === 2){
+                heartsCount++;
+                if(Date.now() - lastPost >= DELTA_POST){
+                    lastPost = Date.now();
+                    console.log(action('Send heart from ' + message.displayName));
+                    sendHeart(heartsCount);
+                }
             }
         },
         connect    : function(){ console.log(info('Connected to PubNub!')); },
@@ -99,10 +103,10 @@ function subscribeOnPubnub(data){
 };
 
 /**
- * Send heart command to the spark/particle API
+ * Send heart command to the particle API
  */
-function sendHeart() {
-    var post_data = querystring.stringify({});
+function sendHeart(heartsCount) {
+    var post_data = querystring.stringify({"args": heartsCount});
     var post_options = {
         host: 'api.particle.io',
         port: '443',
