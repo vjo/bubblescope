@@ -1,8 +1,18 @@
 #include "DisplayController.h"
 #include "application.h"
 
+// #define BUBBLESCOPE_DEBUG 1
+
+#ifdef BUBBLESCOPE_DEBUG
+#define DBGprint(x...) Serial.print(x)
+#define DBGprintln(x...) Serial.println(x)
+#else
+#define DBGprint(x...)
+#define DBGprintln(x...)
+#endif
+
 DisplayController::DisplayController(int data_in, int data_clock, int store_clock, bool charlieplexing){
-  pinMode(data_in_, OUTPUT);
+  pinMode(data_in, OUTPUT);
   pinMode(data_clock, OUTPUT);
   pinMode(store_clock, OUTPUT);
   data_in_ = data_in;
@@ -13,6 +23,10 @@ DisplayController::DisplayController(int data_in, int data_clock, int store_cloc
 
 /* TODO, when charlieplexing is again a thing, this function will light the next set of segments */
 void DisplayController::draw(){
+  if(charlieplexing_){
+    draw_n_segs(first_seg_, charlieplexing_segs);
+    first_seg_ = (first_seg_ + 1) % 8;
+  }
 }
 
 void DisplayController::set_digits(int *digits){
@@ -23,23 +37,28 @@ void DisplayController::set_digits(int *digits){
   }
 }
 
-void DisplayController::set_simultaneous_segments(int segments){
-  simultaneous_segments_ = segments;
-}
-
-
 // PRIVATE FUNCTIONS
 void DisplayController::tick(int clock){
   digitalWrite(clock, HIGH);
   digitalWrite(clock, LOW);
 }
 
-void DisplayController::full_draw() {
-  for(int i= 0; i< DISPLAY_SIZE; ++i) {
-    uint8_t cmd = kNumberDefinition_[digits_[i]];
-    shift_command(cmd);
-  }
+// Draws nb_seg segments, starting with segment first_seg
+void DisplayController::draw_n_segs(int first_seg = 0,int nb_seg = 8) {
+  for(int i= 0; i < DISPLAY_SIZE; ++i) {
+      uint8_t mask = 0;
+    for(int j = 0; j < nb_seg; j++) {
+      mask += 1 << (((j*3) + first_seg) % 8);
+    }
+      uint8_t cmd = kNumberDefinition_[digits_[i]] & mask;
+      shift_command(cmd);
+    }
   tick(store_clock_);
+}
+
+// Draws all segments of the display
+void DisplayController::full_draw() {
+  draw_n_segs();
 }
 
 

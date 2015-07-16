@@ -17,7 +17,7 @@ class DisplayController{
 
     // If charlieplexing is activated, sets the amount of simultaneous segments
     // to display
-    void set_simultaneous_segments(int segments);
+    int charlieplexing_segs = 2;
 
   private:
     int digits_[DISPLAY_SIZE];
@@ -25,8 +25,8 @@ class DisplayController{
     int data_clock_;
     int data_in_;
     int current_segment_ = 0;
-    int simultaneous_segments_ = 1;
     bool charlieplexing_;
+    int first_seg_ = 0;
 
     /* Definitions of numbers as displayed by a seven segment display
        The index of the segment in the following table is as follow:
@@ -55,10 +55,10 @@ class DisplayController{
       0b01101111, //9
       0b00000000  //10 = no light.
     };
-
     void shift_segment(int segment);
     void tick(int clock);
     void full_draw();
+    void draw_n_segs(int nb_seg, int first_seg);
     void shift_command(uint8_t cmd);
 };
 
