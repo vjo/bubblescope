@@ -37,6 +37,14 @@ git clone git@github.com:vjo/bubblescope.git bubblescope && cd bubblescope
 cd server/node && npm install
 ```
 
+### Particle
+Using [particle-cli](https://github.com/spark/particle-cli) tool:
+```shell
+cd client
+particle compile photon particle # replace "photon" with your target device type
+particle flash DEVICE_NAME PATH_TO_BIN
+```
+
 ## Hardware
 
 ### Particle
