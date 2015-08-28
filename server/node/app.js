@@ -50,7 +50,11 @@ try {
  */
 function getAccessPublic(token){
     var data = [];
-    return https.get('https://api.periscope.tv/api/v2/getAccessPublic?token=' + token, function(res){
+    var options = require('url').parse( 'https://api.periscope.tv/api/v2/getAccessPublic?token=' + token);
+    options.rejectUnauthorized = false;
+    options.agent = new https.Agent( options );
+    console.log('https://api.periscope.tv/api/v2/getAccessPublic?token=' + token);
+    return https.get(options, function(res){
         res.on('data', function (chunk){
             data.push(chunk);
         });
@@ -62,6 +66,7 @@ function getAccessPublic(token){
                 publish_key   : d.publisher,
                 channel       : d.channel
             };
+            console.log(keys);
             subscribeOnPubnub(keys);
         });
     }).on('error', function(e) {

@@ -40,8 +40,8 @@ int speedHandler(String dlystr) {
 }
 
 void setup(){
-  display = new DisplayController(A0, A1, A2, false); // set true for charlieplexing
-  pinMode(D2, OUTPUT);
+  display = new DisplayController(A0, A1, A2, true); // set true for charlieplexing
+  pinMode(D0, OUTPUT);
   Spark.function("heart", heartHandler);
   Spark.function("speed", speedHandler);
   Spark.function("segs", segHandler);
