@@ -9,7 +9,7 @@ var program = require('commander'),
 
 var PERISCOPE_URL_RE = /^https:\/\/www.periscope.tv\/w\/*/i,
     DELTA_POST = 400, // Sending post request every DELTA_POST ms
-    CONFIG = {},
+    CONFIG = require('./../../config.json'),
     lastPost = 0;
 
 // define color helper for terminal output
@@ -35,13 +35,6 @@ if(!program.url) {
 if(!program.url.match(PERISCOPE_URL_RE)) {
     console.log(error('Error: wrong URL format'));
     program.help();
-}
-
-var data = fs.readFileSync('./../../config.json');
-try {
-    CONFIG = JSON.parse(data);
-} catch (e) {
-    console.log(error('Error while parsing config.json file:'), e);
 }
 
 /**
