@@ -43,7 +43,7 @@ if(!program.url.match(PERISCOPE_URL_RE)) {
  */
 function getAccessPublic(token){
     var data = [];
-    return https.get('https://api.periscope.tv/api/v2/getAccessPublic?token=' + token, function(res){
+    return https.get('https://api.periscope.tv/api/v2/getAccessPublic?broadcast_id=' + token, function(res){
         res.on('data', function (chunk){
             data.push(chunk);
         });
