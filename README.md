@@ -36,6 +36,7 @@ git clone git@github.com:vjo/bubblescope.git bubblescope && cd bubblescope
 ```shell
 cd server/node && npm install
 ```
+`bubblescope` uses the [peristream](https://github.com/ArnaudRinquin/peristream) project that helps you listening to a Periscope stream.
 
 ### Particle
 Using [particle-cli](https://github.com/spark/particle-cli) tool:

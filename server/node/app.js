@@ -4,8 +4,8 @@
 var program = require('commander'),
     querystring = require('querystring'),
     chalk = require('chalk'),
-    fs = require('fs'),
-    https = require('https');
+    https = require('https'),
+    peristream = require('peristream');
 
 var PERISCOPE_URL_RE = /^https:\/\/www.periscope.tv\/w\/*/i,
     DELTA_POST = 400, // Sending post request every DELTA_POST ms
@@ -38,65 +38,8 @@ if(!program.url.match(PERISCOPE_URL_RE)) {
 }
 
 /**
- * Get PubNub key to subscribe
- * @param {String} token periscope token
- */
-function getAccessPublic(token){
-    var data = [];
-    return https.get('https://api.periscope.tv/api/v2/getAccessPublic?broadcast_id=' + token, function(res){
-        res.on('data', function (chunk){
-            data.push(chunk);
-        });
-        res.on('end', function(){
-            var d = JSON.parse(data.join(''));
-            var keys = {
-                auth_key      : d.auth_token,
-                subscribe_key : d.subscriber,
-                publish_key   : d.publisher,
-                channel       : d.channel
-            };
-            subscribeOnPubnub(keys);
-        });
-    }).on('error', function(e) {
-        console.log(error('Error getAccessPublic: ' + e.message));
-    });
-};
-
-/**
- * Subscribe to PubNub API
- * @param {Object} data pubnub's subscription data
- */
-function subscribeOnPubnub(data){
-    var pubnub = require("pubnub")({
-        ssl           : true,
-        publish_key   : data.publish_key,
-        subscribe_key : data.subscribe_key
-    });
-    var heartsCount = 0;
-    pubnub.subscribe({
-        channel    : data.channel,
-        auth_key   : data.auth_key,
-        callback   : function(message){
-            if(message.type === 2){
-                heartsCount++;
-                if(Date.now() - lastPost >= DELTA_POST){
-                    lastPost = Date.now();
-                    console.log(action('Send heart from ' + message.displayName));
-                    sendHeart(heartsCount);
-                }
-            }
-        },
-        connect    : function(){ console.log(info('Connected to PubNub!')); },
-        disconnect : function(){ console.log(info('Disconnected from PubNub.')); },
-        error      : function (error) {
-            console.log(error('Error subscribe PubNub'));
-            console.log(JSON.stringify(error));
-        }
-    });
-};
-
-/**
  * Send heart command to the particle API
+ * @param {Int} heartsCounts hearts count since we listen to the periscope
  */
 function sendHeart(heartsCount) {
     var post_data = querystring.stringify({"args": heartsCount});
@@ -118,10 +61,26 @@ function sendHeart(heartsCount) {
             }
         });
     });
+
     post_req.write(post_data);
     post_req.end();
 };
 
-var extract = program.url.split('https://www.periscope.tv/w/')[1];
-var token = encodeURIComponent(extract);
-var data = getAccessPublic(token);
+
+var stream = peristream(program.url);
+var heartsCount = 0;
+
+stream.connect().then(function(emitter){
+    emitter.on(peristream.HEARTS, function(message){
+        heartsCount++;
+        if(Date.now() - lastPost >= DELTA_POST){
+            lastPost = Date.now();
+            console.log(action('Send heart from ' + message.displayName));
+            sendHeart(heartsCount);
+        }
+  });
+
+    emitter.on(peristream.DISCONNECT, function(message){
+        console.log(info('Disconnected.'));
+    });
+});

@@ -1,6 +1,6 @@
 {
     "name": "bubblescope",
-    "version": "0.0.1",
+    "version": "0.1.0",
     "description": "Powering a bubble machine with Periscope's hearts",
     "author": "spapin & vjo",
     "license": "MIT",
@@ -9,9 +9,19 @@
         "type": "git",
         "url": "https://github.com/vjo/bubblescope"
     },
+    "keywords": [
+        "periscope",
+        "periscopetv",
+        "periscope.tv"
+    ],
+    "bugs": {
+        "url": "https://github.com/vjo/bubblescope/issues"
+    },
+    "homepage": "https://github.com/vjo/bubblescope#readme",
     "dependencies": {
         "chalk": "^1.0.0",
         "commander": "^2.6.0",
+        "peristream": "0.0.0",
         "pubnub": "^3.7.11",
         "querystring": "^0.2.0"
     },
